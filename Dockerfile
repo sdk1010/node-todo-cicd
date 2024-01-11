@@ -1,5 +1,5 @@
 FROM node:12.2.0-alpine
-WORKDIR /app
+WORKDIR /data
 COPY . .
 RUN npm install
 RUN npm run test
