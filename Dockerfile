@@ -1,5 +1,5 @@
 FROM node:latest
-WORKDIR /data
+WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run test
