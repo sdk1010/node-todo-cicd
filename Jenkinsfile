@@ -1,40 +1,46 @@
-pipeline {
-    agent { label "dev-server"}
+pipeline{
+    agent any
+    stages{
     
-    stages {
-        
         stage("code"){
+         
             steps{
-                git url: "https://github.com/LondheShubham153/node-todo-cicd.git", branch: "master"
-                echo 'bhaiyya code clone ho gaya'
-            }
+                
+                git url: "https://github.com/sdk1010/node-todo-cicd.git", branch: "main"
+                echo "Code successfully pulled from GitHub"
+                
+            }   
         }
-        stage("build and test"){
+        stage("build & test"){
+         
             steps{
-                sh "docker build -t node-app-test-new ."
-                echo 'code build bhi ho gaya'
-            }
-        }
-        stage("scan image"){
-            steps{
-                echo 'image scanning ho gayi'
-            }
+                
+                sh "docker build -t node-todo-cicd-pipeline:latest ."
+                echo "Image successfully built and tested."
+                
+            }   
         }
         stage("push"){
+         
             steps{
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker tag node-app-test-new:latest ${env.dockerHubUser}/node-app-test-new:latest"
-                sh "docker push ${env.dockerHubUser}/node-app-test-new:latest"
-                echo 'image push ho gaya'
+                
+                withCredentials([usernamePassword(credentialsId:"dockerHub",usernameVariable:"dockerHubUser",passwordVariable:"dockerHubPass")]){
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                    sh "docker tag node-todo-cicd-pipeline:latest ${env.dockerHubUser}/node-todo-cicd-pipeline:latest"
+                    sh "docker push ${env.dockerHubUser}/node-todo-cicd-pipeline:latest"
+                    echo "Image successfully pushed to DockerHub"
                 }
-            }
+            }   
         }
         stage("deploy"){
+         
             steps{
+                
                 sh "docker-compose down && docker-compose up -d"
-                echo 'deployment ho gayi'
-            }
+                echo "Deployment Completed"
+                
+            }   
         }
+      
     }
 }
