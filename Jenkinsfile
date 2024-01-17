@@ -1,5 +1,6 @@
 pipeline{
-    agent any
+    agent any 
+    # OR you can use agent {label "dev-server"}
     stages{
     
         stage("code"){
