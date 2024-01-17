@@ -1,6 +1,5 @@
 pipeline{
     agent any 
-    # OR you can use agent {label "dev-server"}
     stages{
     
         stage("code"){
@@ -25,7 +24,7 @@ pipeline{
 
             steps{
 
-                #sh "trivy image node-todo-cicd-pipeline:latest --scanners vuln"
+                sh "trivy image node-todo-cicd-pipeline:latest --scanners vuln"
                 echo "Image successfully tested."
                 
             }
