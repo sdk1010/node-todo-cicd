@@ -17,7 +17,7 @@ pipeline{
             steps{
                 
                 sh "docker build -t node-todo-cicd-pipeline:latest ."
-                echo "Image successfully built and tested."
+                echo "Image successfully built."
                 
             }   
         }
@@ -26,6 +26,7 @@ pipeline{
             steps{
 
                 sh "trivy image node-todo-cicd-pipeline:latest --scanners vuln"
+                echo "Image successfully tested."
                 
             }
         }
